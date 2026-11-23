@@ -1,0 +1,23 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>حجز طاولة | ريحان كافيه</title><link rel="stylesheet" href="style.css"></head><body>
+<div id="top"></div>
+<section><div class="wrap two"><div><h2>احجز طاولتك</h2><p class="sub">اختار اليوم وعدد الأفراد والمعاد المناسب.</p>
+<div class="panel"><form onsubmit="return book(event)">
+<div class="f2"><label>التاريخ<input type="date" id="d" required></label><label>عدد الأفراد<select id="n"><option>٢</option><option>٣</option><option>٤</option><option>٦</option><option>٨</option></select></label></div>
+<label>المكان<select id="z"><option>داخلي</option><option>حديقة خارجية</option><option>ركن عائلي</option></select></label>
+<label>المعاد<div class="slots" id="slots"></div></label>
+<div class="f2"><label>الاسم<input id="nm" required></label><label>رقم الموبايل<input id="ph" inputmode="tel" required></label></div>
+<label>ملاحظات<textarea id="nt" rows="2"></textarea></label>
+<button class="btn" type="submit">تأكيد الحجز</button></form></div></div>
+<div><div class="panel" id="sum" style="background:var(--g);color:#fff"><h3>ملخص الحجز</h3><p id="st" style="margin-top:10px">اختار المعاد لعرض الملخص.</p></div>
+<div class="panel" style="margin-top:18px"><h3>سياسة الحجز</h3><p style="color:var(--mut);font-size:14px">نحتفظ بالطاولة ١٥ دقيقة بعد المعاد. تقدر تلغي أو تعدل قبلها بساعتين. هذه صفحة تجريبية ولا تُرسل أي بيانات.</p></div></div></div></section>
+<div id="foot"></div>
+<script src="app.js"></script><script>
+chrome('booking.html');
+const T=['١٢:٠٠ ظ','١:٣٠ ظ','٣:٠٠ ع','٤:٣٠ ع','٦:٠٠ م','٧:٣٠ م','٩:٠٠ م','١٠:٣٠ م'],off=[1,4];let sel=null;
+const dd=document.getElementById('d');const t=new Date();t.setDate(t.getDate()+1);dd.value=t.toISOString().slice(0,10);dd.min=dd.value;
+document.getElementById('slots').innerHTML=T.map((s,i)=>`<button type="button" ${off.includes(i)?'disabled':''} onclick="pick(${i},this)">${s}</button>`).join('');
+function pick(i,b){sel=T[i];document.querySelectorAll('.slots button').forEach(x=>x.classList.remove('on'));b.classList.add('on');upd()}
+function upd(){document.getElementById('st').innerHTML=`التاريخ: ${dd.value}<br>المعاد: ${sel||'—'}<br>${n.value} أفراد · ${z.value}`}
+['d','n','z'].forEach(i=>document.getElementById(i).onchange=upd);
+function book(e){e.preventDefault();if(!sel){toast('اختار المعاد');return false}toast('تم تأكيد الحجز (تجريبي). لم تُرسل أي بيانات.');return false}
+</script></body></html>
